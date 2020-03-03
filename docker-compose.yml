@@ -6,7 +6,7 @@ services:
     container_name: db
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     build:
-      context: ./containers/mysql
+      context: ./.docker/images/mysql
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
@@ -25,7 +25,7 @@ services:
     restart: always
     container_name: phpmyadmin
     build:
-      context: ./containers/phpmyadmin
+      context: ./.docker/images/phpmyadmin
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - PMA_HOST=db
@@ -42,13 +42,13 @@ services:
     container_name: nginx
     working_dir: /var/www/
     build:
-      context: ./containers/nginx
+      context: ./.docker/images/nginx
       args:
         - APP_HOST=${APP_HOST}
     volumes:
       - ${APP_SRC}:/var/www/
-      - ./containers/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - ./containers/nginx/conf.d/:/etc/nginx/conf.d
+      - ./.docker/images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./.docker/images/nginx/conf.d/:/etc/nginx/conf.d
     ports:
       - ${NGINX_PORT_80}:80
     depends_on:
@@ -61,7 +61,7 @@ services:
     expose:
       - 9000
     build:
-      context: ./containers/php-fpm
+      context: ./.docker/images/php-fpm
       args:
         - ENABLE_XDEBUG=${ENABLE_XDEBUG}
     volumes:
@@ -72,7 +72,7 @@ services:
     restart: always
     container_name: redis
     build:
-      context: ./containers/redis
+      context: ./.docker/images/redis
     expose:
       - 6379
   mailhog:
@@ -80,7 +80,7 @@ services:
     restart: unless-stopped
     container_name: mailhog
     build:
-      context: ./containers/mailhog
+      context: ./.docker/images/mailhog
     expose:
       - "1025"
     ports:
@@ -89,11 +89,11 @@ services:
     restart: always
     container_name: echo-server
     build:
-      context: ./containers/echo-server
+      context: ./.docker/images/echo-server
     ports:
       - 6001
     volumes:
-      - ./containers/echo-server/laravel-echo-server.json:/opt/laravellaravel-echo-server.json:ro
+      - ./.docker/images/echo-server/laravel-echo-server.json:/opt/laravellaravel-echo-server.json:ro
     depends_on:
       - redis
   composer:
@@ -101,7 +101,7 @@ services:
     working_dir: /var/www/
     container_name: composer
     build:
-      context: ./containers/composer
+      context: ./.docker/images/composer
     volumes:
       - ${APP_SRC}:/var/www
   node:
@@ -109,7 +109,6 @@ services:
     working_dir: /var/www/
     container_name: node
     build:
-      context: ./containers/node
+      context: ./.docker/images/node
     volumes:
       - ${APP_SRC}:/var/www
-
