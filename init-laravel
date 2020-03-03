@@ -1,0 +1,30 @@
+#!/bin/bash
+source .env
+
+DIR_SEPARATOR="/"
+if [[ $APP_SRC == *"/" ]]; then
+  DIR_SEPARATOR=""
+fi
+
+SED_OPTIONS=""
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  SED_OPTIONS="\'\'"
+fi
+sed -i $SED_OPTIONS "s/APP_NAME=.*/APP_NAME=$APP_NAME/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/DB_HOST=.*/DB_HOST=db/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=mail@laravel-compose.local/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/DB_DATABASE=.*/DB_DATABASE=$MYSQL_DATABASE/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/DB_USERNAME=.*/DB_USERNAME=$MYSQL_USER/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/DB_PASSWORD=.*/DB_PASSWORD=$MYSQL_PASSWORD/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/BROADCAST_DRIVER=.*/BROADCAST_DRIVER=redis/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/CACHE_DRIVER=.*/CACHE_DRIVER=redis/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/QUEUE_CONNECTION=.*/QUEUE_CONNECTION=redis/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/REDIS_HOST=.*/REDIS_HOST=redis/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/MAIL_HOST=.*/MAIL_HOST=mailhog/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/MAIL_PORT=.*/MAIL_PORT=1025/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/APP_URL=.*/APP_URL=http:\/\/laravel-compose.local/g" ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/SESSION_DOMAIN=.*//g" ${APP_SRC}$DIR_SEPARATOR.env
+echo -e "SESSION_DOMAIN=laravel-compose.local" >> ${APP_SRC}$DIR_SEPARATOR.env
+sed -i $SED_OPTIONS "s/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=mail@laravel-compose.local/g" ${APP_SRC}$DIR_SEPARATOR.env
+./artisan config:clear
+./artisan config:cache
