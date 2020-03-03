@@ -1,5 +1,4 @@
-
-\.env
-volumes/
-
+.env
+.docker/volumes/
 src/
+.idea/

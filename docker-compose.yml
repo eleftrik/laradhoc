@@ -3,27 +3,29 @@ version: '3'
 services:
   db:
     restart: always
-    container_name: db
+    container_name: ${CONTAINER_PREFIX}_db
+    tty: true
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     build:
       context: ./.docker/images/mysql
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_INITDB_SKIP_TZINFO: 1
     expose:
       - "3306"
     ports:
       - ${MYSQL_PORT}:3306
     volumes:
-      - ${MYSQL_DB_PATH}:/var/lib/mysql
+      - sql-data:/var/lib/mysql
     depends_on:
       - nginx
 
   phpmyadmin:
     restart: always
-    container_name: phpmyadmin
+    container_name: ${CONTAINER_PREFIX}_phpmyadmin
     build:
       context: ./.docker/images/phpmyadmin
     environment:
@@ -37,9 +39,10 @@ services:
     depends_on:
       - db
 
+
   nginx:
     restart: always
-    container_name: nginx
+    container_name: ${CONTAINER_PREFIX}_nginx
     working_dir: /var/www/
     build:
       context: ./.docker/images/nginx
@@ -56,7 +59,7 @@ services:
 
   php-fpm:
     user: ${CURRENT_UID}
-    container_name: php-fpm
+    container_name: ${CONTAINER_PREFIX}_php-fpm
     working_dir: /var/www/
     expose:
       - 9000
@@ -68,9 +71,8 @@ services:
       - ${APP_SRC}:/var/www/
 
   redis:
-#    user: ${CURRENT_UID}
     restart: always
-    container_name: redis
+    container_name: ${CONTAINER_PREFIX}_redis
     build:
       context: ./.docker/images/redis
     expose:
@@ -78,7 +80,7 @@ services:
   mailhog:
     user: ${CURRENT_UID}
     restart: unless-stopped
-    container_name: mailhog
+    container_name: ${CONTAINER_PREFIX}_mailhog
     build:
       context: ./.docker/images/mailhog
     expose:
@@ -87,7 +89,7 @@ services:
       - ${MAILHOG_PORT}:8025
   echo-server:
     restart: always
-    container_name: echo-server
+    container_name: ${CONTAINER_PREFIX}_echo-server
     build:
       context: ./.docker/images/echo-server
     ports:
@@ -99,7 +101,7 @@ services:
   composer:
     user: ${CURRENT_UID}
     working_dir: /var/www/
-    container_name: composer
+    container_name: ${CONTAINER_PREFIX}_composer
     build:
       context: ./.docker/images/composer
     volumes:
@@ -107,8 +109,10 @@ services:
   node:
     user: ${CURRENT_UID}
     working_dir: /var/www/
-    container_name: node
+    container_name: ${CONTAINER_PREFIX}_node
     build:
       context: ./.docker/images/node
     volumes:
       - ${APP_SRC}:/var/www
+volumes:
+  sql-data:
