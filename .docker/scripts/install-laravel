@@ -2,4 +2,4 @@
 source .env
 mkdir -p $APP_SRC
 docker-compose run composer create-project --prefer-dist laravel/laravel .
-./init-laravel
+.docker/scripts/init-laravel

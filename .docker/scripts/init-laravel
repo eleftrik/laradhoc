@@ -22,5 +22,5 @@ ENV_FILE=${ENV_FILE//MAIL_PORT=/MAIL_PORT=\"1025\"}
 ENV_FILE=${ENV_FILE//APP_URL=/APP_URL=\"http:\/\/$APP_HOST\"}
 echo "$ENV_FILE" > $TARGET_ENV
 
-./artisan config:clear
-./artisan config:cache
+.docker/scripts/artisan config:clear
+.docker/scripts/artisan config:cache
