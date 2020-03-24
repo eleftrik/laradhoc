@@ -1,6 +1,12 @@
-# Laradhoc
+Laradhoc
+===
 
 Laradhoc is a Docker-based basic PHP development environment designed for Laravel applications.
+
+## Requirements
+
+* MacOS, Linux or Windows with WSL
+* Docker
 
 ## Installation
 
@@ -12,34 +18,48 @@ git@github.com:eleftrik/laradhoc.git
 
 ## Configuration
 
-Create an .env file (see .env.example).
+Create an .env file (see .env.example)
 ```bash
-./start --build
-```
-Is this a new project? No problem, just run:
-```bash
-./install-laravel
-```
-A fresh laravel app will be ready soon in your $APP_SRC
+cp .env.example .env
 
-Do you have an existing Laravel Project? Just run:
-```bash
-./init-laravel
+# Customize every variable according to your needs
+# See comments to each variable in .env.example file
 ```
-Laradhoc will update your Laravel .env with the env variables (please backup it first)
-Are you tired of working (we are all tired of working)? Just stop everythings:
-```bash
-./stop
-```
-Go out, take a beer with friends and tell them how Laradhoc is easy to use. Yes, your friends are all developers!!
 
-<b>N.B.</b> don't forget to add laradhoc.test to your host file
+According to the value of `$APP_HOST`, add your test domain (e.g. `laradhoc.test`) to your hosts file
 ```bash
 sudo /bin/bash -c 'echo -e "127.0.0.1 laradhoc.test" >> /etc/hosts'
 ```
+
+Build all Docker containers and start them
+```bash
+ .docker/scripts/start --build
+```
+
+Is this a new project? No problem, just run:
+```bash
+./.docker/scripts/install-laravel
+```
+A fresh Laravel app will be ready soon in your `$APP_SRC`
+
+Do you have an existing Laravel Project? Just run:
+```bash
+./.docker/scripts/init-laravel
+```
+
+Laradhoc will update your Laravel .env with the env variables (please backup it first)
+Are you tired of working (we are all tired of working)? Just stop everythings:
+```bash
+./.docker/scripts/stop
+```
+Go out, take a beer with friends and tell them how Laradhoc is easy to use. Yes, your friends are all developers!!
+
 <b>N.B.</b> Nginx will proxy all request from /socket.io to laravel-echo container
-## Script
+
+## Scripts
+
 Laradhoc provides some useful script:
+
 ### start
 It's a shortcut to 
 ```bash
