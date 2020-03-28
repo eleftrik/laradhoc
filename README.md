@@ -1,6 +1,8 @@
 Laradhoc
 ===
 
+![laradhoc](https://user-images.githubusercontent.com/6959298/77827950-fd3cde80-7118-11ea-8cde-87a30138140c.png)
+
 Laradhoc is a Docker-based basic PHP development environment designed for Laravel applications.
 
 ## Features
