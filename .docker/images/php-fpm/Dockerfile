@@ -1,4 +1,8 @@
 FROM php:7.4-fpm
+
+# Set working directory
+WORKDIR /var/www
+
 ARG ENABLE_XDEBUG
 RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     pecl install xdebug \
@@ -45,8 +49,9 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd
-RUN docker-php-ext-install gd
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install opcache
 
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
@@ -58,9 +63,16 @@ COPY ./cron /etc/cron.d/cron
 RUN chmod 0644 /etc/cron.d/cron
 RUN crontab /etc/cron.d/cron
 
+# Configure opcache.ini
+COPY ./conf.d/opcache.ini /tmp
+RUN mv /tmp/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+
 # Add www user and www group
 RUN groupadd -g 1000 www
 RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# Copy existing application directory permissions
+RUN chown -R www: /var/www
 
 # Change current user to www
 USER www

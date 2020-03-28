@@ -1,2 +1,2 @@
-FROM mariadb:latest
+FROM mysql:8
 
