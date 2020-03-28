@@ -21,8 +21,10 @@ Laradhoc is a Docker-based basic PHP development environment designed for Larave
 
 Just clone this repo.
 
+Let's pretend your Laravel application will be accessible at `laradhoc.test`:
+
 ```bash
-git@github.com:eleftrik/laradhoc.git
+git clone git@github.com:eleftrik/laradhoc.git laradhoc.test
 ```
 
 ## Configuration
@@ -45,18 +47,36 @@ Build all Docker containers and start them
  .docker/scripts/start --build
 ```
 
+---
+
+Ok, let's talk now about your Laravel application!
+
+New or existing?
+
+### a. New application
+
 New Laravel project from scratch? No problem, just run:
 ```bash
 ./.docker/scripts/install-laravel
 ```
 A fresh Laravel app will be downloaded in `${APP_SRC}`, configured and available at [http://${APP_HOST}]()
 
-Do you have an existing Laravel Project in `${APP_SRC}`? Just run:
+
+### b. Existing application
+
+Do you have an existing Laravel Project?
+
+Just copy it or clone it into `${APP_SRC}` so your Laravel application
+is inside that directory.
+
+Then run:
 ```bash
 ./.docker/scripts/init-laravel
 ```
 
 Laradhoc will update your Laravel `.env` with the env variables (please backup it first)
+
+--- 
 
 Finished working? Just stop everything:
 ```bash
