@@ -6,7 +6,7 @@ TARGET_ENV="${APP_SRC}/.env"
 
 # Read options from main .env file and write
 # them into Laravel .env file
-ENV_FILE=$(<${TARGET_ENV})
+ENV_FILE=$(<$TARGET_ENV)
 
 ENV_FILE=$(sed "s/APP_NAME=.*/APP_NAME=\"${APP_NAME}\"/" <<< "${ENV_FILE}")
 ENV_FILE=$(sed "s/DB_DATABASE=.*/DB_DATABASE=\"${MYSQL_DATABASE}\"/" <<< "${ENV_FILE}")
