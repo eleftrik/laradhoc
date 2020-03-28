@@ -50,7 +50,7 @@ RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd \
+    && docker-php-ext-install -j "$(nproc)" gd \
     && docker-php-ext-install opcache
 
 # Configure php.ini
