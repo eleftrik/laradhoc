@@ -1,0 +1,53 @@
+#!/bin/bash
+source .env
+
+# Laravel .env file
+TARGET_ENV="${APP_SRC}/.env"
+# Laravel .env.example file
+TARGET_ENV_EXAMPLE="${APP_SRC}/.env.example"
+
+if [ "$1" != "--new" ] ; then
+  # Existing project: check for .env file
+
+  if [ ! -f ${TARGET_ENV} ] ; then
+    # No .env file found. Try to copy it from .env.example
+    echo -e "\nNo ${TARGET_ENV} file found. Trying to copy from ${TARGET_ENV_EXAMPLE}..."
+    cp -f ${TARGET_ENV_EXAMPLE} ${TARGET_ENV} 2>/dev/null
+
+    if [ ! -f ${TARGET_ENV} ] ; then
+      # Still no .env file
+      echo -e "\nERROR: there is no ${TARGET_ENV} file."
+      echo -e "Please create one manually, then run this script again.\n"
+      exit 1
+    fi
+  fi
+fi
+
+
+echo "File ${TARGET_ENV} found. Performing variable replacing..."
+
+# Read options from main .env file and write
+# them into Laravel .env file
+ENV_FILE=$(<$TARGET_ENV)
+
+ENV_FILE=$(sed "s/APP_NAME=.*/APP_NAME=\"${APP_NAME}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/DB_DATABASE=.*/DB_DATABASE=\"${MYSQL_DATABASE}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/DB_USERNAME=.*/DB_USERNAME=\"${MYSQL_USER}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/DB_PASSWORD=.*/DB_PASSWORD=\"${MYSQL_PASSWORD}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/DB_HOST=.*/DB_HOST=database/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/MAIL_FROM_ADDRESS=.*/MAIL_FROM_ADDRESS=\"mail@${APP_HOST}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/MAIL_FROM_NAME=.*/MAIL_FROM_NAME=\"${APP_NAME}\"/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/BROADCAST_DRIVER=.*/BROADCAST_DRIVER=redis/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/REDIS_HOST=.*/REDIS_HOST=redis/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/MAIL_HOST=.*/MAIL_HOST=mailhog/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/MAIL_PORT=.*/MAIL_PORT=1025/" <<< "${ENV_FILE}")
+ENV_FILE=$(sed "s/APP_URL=.*/APP_URL=\"http:\/\/${APP_HOST}\"/" <<< "${ENV_FILE}")
+echo "${ENV_FILE}" > ${TARGET_ENV}
+
+if [ "$1" != "--new" ] ; then
+  # Existing project: install composer dependencies, generate a key
+  .docker/scripts/composer install
+  .docker/scripts/artisan key:generate
+fi
+
+.docker/scripts/artisan config:clear
