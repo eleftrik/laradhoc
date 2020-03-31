@@ -10,6 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.1.0] - 2020-03-30
+### Added
+- add `NGINX_ENABLE_HTTPS` option to `.env` file in order to run the application over **HTTPS**
+  (if set to `0`, the application will run over HTTP)
+- add `NGINX_PORT_443` to remap HTTPS port
+- add `openssl` to requirements (on your host) if using HTTPS
+- add `init` script to create a new self-signed certificate (if using HTTPS)
+- add `nah` script to purge everything (containers, volumes, application files)
+### Fixed
+- fix some typos and improve comments
+
 ## [1.0.2] - 2020-03-28
 ### Added
 - add Laradhoc logo to README.md file

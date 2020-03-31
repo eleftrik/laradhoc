@@ -50,6 +50,7 @@ services:
       - ./.docker/images/nginx/conf.d/:/etc/nginx/conf.d
     ports:
       - ${NGINX_PORT_80}:80
+      - ${NGINX_PORT_443}:443
     depends_on:
       - php-fpm
   php-fpm:

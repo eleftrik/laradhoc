@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo -e "\n!!!!!!!!! WARNING !!!!!!!!!\n"
+echo "- all volumes will be REMOVED (you'll loose your MySql data)"
+echo "- the ${APP_SRC} folder will be DELETED"
+echo "- all containers will be stopped "
+echo -e "\nAre your really sure? To confirm, type:   nah\n"
+
+read input
+if [ ! "$input" == "nah" ] ; then
+  echo -e "\nNobody got hurt :)\n"
+  exit 0
+fi
+
+source .env
+echo "Stopping all containers and removing volumes..."
+docker-compose down -v
+
+echo "Deleting ${APP_SRC} folder..."
+rm -rf ${APP_SRC}

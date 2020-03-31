@@ -46,7 +46,7 @@ echo "${ENV_FILE}" > ${TARGET_ENV}
 
 if [ "$1" != "--new" ] ; then
   # Existing project: install composer dependencies, generate a key
-  .docker/scripts/composer install
+  .docker/scripts/composer install --ignore-platform-reqs
   .docker/scripts/artisan key:generate
 fi
 
