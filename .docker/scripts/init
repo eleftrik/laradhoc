@@ -10,10 +10,12 @@ if [ $NGINX_ENABLE_HTTPS == 1 ] && ! [ -x "$(command -v openssl)" ]; then
   exit 1
 fi
 
-echo "Creating a new self-signed certificate for domain '${APP_HOST}'..."
-openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
-  -subj "/C=CA/ST=QC/O=Company, Inc./CN=${APP_HOST}" \
-  -out ${KEY_PATH}/${APP_HOST}.crt \
-  -keyout ${KEY_PATH}/${APP_HOST}.key 2>/dev/null
+if [ $NGINX_ENABLE_HTTPS == 1 ] ; then
+  echo "Creating a new self-signed certificate for domain '${APP_HOST}'..."
+  openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+    -subj "/C=CA/ST=QC/O=Company, Inc./CN=${APP_HOST}" \
+    -out ${KEY_PATH}/${APP_HOST}.crt \
+    -keyout ${KEY_PATH}/${APP_HOST}.key 2>/dev/null
+fi
 
 docker-compose up -d --build $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
