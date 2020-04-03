@@ -1,5 +1,4 @@
 .env
 .docker/volumes/
-.docker/images/nginx/ssl
 src/
 .idea/
