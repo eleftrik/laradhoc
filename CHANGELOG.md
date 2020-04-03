@@ -10,7 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
-## [1.1.0] - 2020-03-30
+## [1.2.1] - 2020-04-04
+### Fixed
+- HTTP only (didn't work)
+- create SSL certificates only if `$NGINX_ENABLE_HTTPS`= 1
+
+## [1.2.0] - 2020-03-30
 ### Added
 - add `NGINX_ENABLE_HTTPS` option to `.env` file in order to run the application over **HTTPS**
   (if set to `0`, the application will run over HTTP)
