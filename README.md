@@ -19,7 +19,9 @@ Laradhoc is a Docker-based basic PHP development environment designed for Larave
 * Mailhog
 * Redis
 * Custom domain name (es. `http://laradhoc.test` or `https://laradhoc.test`)
-* HTTP or HTTPS (with self-signed SSL certificate)  
+* HTTP or HTTPS (with self-signed SSL certificate)
+* npm
+* gulp (for old projects)  
 
 ## Requirements
 
@@ -224,6 +226,15 @@ It will execute commands through the Node container.
 For example:
 ```bash
 .docker/scripts/node yarn run production
+``` 
+### gulp
+Need to run some "old" project still using `gulp`?
+No problem: this command will run Gulp and compile
+your assets.
+
+For example:
+```bash
+.docker/scripts/gulp watch
 ``` 
 
 ### nah

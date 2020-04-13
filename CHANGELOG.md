@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.3.0] - 2020-04-13
+### Added
+- `gulp` script to run `gulp` (for old projects)
+
 ## [1.2.1] - 2020-04-04
 ### Fixed
 - HTTP only (didn't work)
