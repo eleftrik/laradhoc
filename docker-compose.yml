@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 services:
   database:
     restart: always
@@ -7,6 +7,8 @@ services:
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     build:
       context: ./.docker/images/mysql
+      args:
+        - DATABASE_IMAGE=${DATABASE_IMAGE}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
