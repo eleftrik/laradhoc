@@ -46,6 +46,7 @@ services:
       context: ./.docker/images/nginx
       args:
         - APP_HOST=${APP_HOST}
+        - NGINX_ENABLE_HTTPS=${NGINX_ENABLE_HTTPS}
     volumes:
       - ${APP_SRC}:/var/www/:cached
       - ./.docker/images/nginx/nginx.conf:/etc/nginx/nginx.conf
