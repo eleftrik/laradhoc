@@ -13,7 +13,7 @@ Laradhoc is a Docker-based basic PHP development environment designed for Larave
 
 ## Features
 * Nginx
-* PHP 7.4 with OPCache
+* PHP (7.2 / 7.3 / 7.4) with OPCache
 * MySQL / MariaDB
 * phpMyAdmin
 * Mailhog
@@ -23,7 +23,10 @@ Laradhoc is a Docker-based basic PHP development environment designed for Larave
 * npm
 * gulp (for old projects)  
 
-You can choose your database (for example, MariaDB 10.2) by setting `$DATABASE_IMAGE` variable in your
+You can choose which version of PHP (for example, `7.4`) to run by setting `$PHP_VERSION` variable in your
+`.env` file (see `.env.example` for details).
+
+Likewise, you can choose your database (for example, `MariaDB 10.2`) by setting `$DATABASE_IMAGE` variable in your
 `.env` file (see `.env.example` for details)
 
 ## Requirements

@@ -65,6 +65,7 @@ services:
     build:
       context: ./.docker/images/php-fpm
       args:
+        - PHP_VERSION=${PHP_VERSION}
         - ENABLE_XDEBUG=${ENABLE_XDEBUG}
     volumes:
       - ${APP_SRC}:/var/www/:cached

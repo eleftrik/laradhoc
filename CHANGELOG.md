@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.5.0] - 2020-04-27
+### Added
+- add `$PHP_VERSION` env variable to choose PHP version (between `7.2`, `7.3`, `7.4`)
+### Changed
+- improve `.env.example` readability
 
 ## [1.4.1] - 2020-04-23
 ### Fixed

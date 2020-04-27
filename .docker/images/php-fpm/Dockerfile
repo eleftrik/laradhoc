@@ -1,4 +1,5 @@
-FROM php:7.4-fpm
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm
 
 # Set working directory
 WORKDIR /var/www
@@ -49,9 +50,15 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j "$(nproc)" gd \
-    && docker-php-ext-install opcache
+RUN if [[ ${PHP_VERSION} == 7.4* ]] ; then \
+    docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j "$(nproc)" gd; \
+fi;
+RUN if [[ ${PHP_VERSION} == 7.2* ]] || [[ ${PHP_VERSION} == 7.3* ]] ; then \
+    docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+    && docker-php-ext-install gd;\
+fi;
+RUN docker-php-ext-install opcache
 
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
