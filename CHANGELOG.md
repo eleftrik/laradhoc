@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.5.1] - 2020-05-06
+### Added
+- add `docker-compose.override.yml` to `.gitignore` so one can
+  customize the configuration (e.g. bind mounts, etc.)
+### Fixed
+- minor updates to `README.md`
+
 ## [1.5.0] - 2020-04-27
 ### Added
 - add `$PHP_VERSION` env variable to choose PHP version (between `7.2`, `7.3`, `7.4`)

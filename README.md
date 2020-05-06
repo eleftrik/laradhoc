@@ -9,7 +9,11 @@ Laradhoc
 ![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
 
-Laradhoc is a Docker-based basic PHP development environment designed for Laravel applications.
+**Laradhoc** is a Docker-based basic LEMP development environment designed for [Laravel](https://laravel.com/) applications.
+
+Looking for a similar Docker environment for [WordPress](https://wordpress.org/)? Then give a try to
+[Dockpress](https://github.com/eleftrik/dockpress)!
+
 
 ## Features
 * Nginx
@@ -43,6 +47,7 @@ Let's pretend your Laravel application will be accessible at `laradhoc.test`:
 
 ```bash
 git clone git@github.com:eleftrik/laradhoc.git laradhoc.test
+cd laradhoc.test
 ```
 
 ## Configuration
@@ -157,6 +162,9 @@ When updating from a previous version, follow these steps:
 - see `CHANGELOG.md`
 - update your `./.env` file according to `./.env.example`
   (new variables may have been introduced)
+- if you have overridden `docker-compose.yml` using `docker-compose.override.yml`, see
+  `docker-compose.yml` to check if something has added, changed or deleted, compared to
+  the previous version of `docker-compose.yml` you were using before updating 
 - launch `.docker/scripts/start --build`
 
 ## Scripts
@@ -244,14 +252,20 @@ For example:
 ``` 
 
 ### nah
+Want to throw away **anything**?
+This command will stop all containers, delete volumes and the entire `$APP_SRC`.
 
-**WARNING**!
-This command will **remove** all your volumes, stop all containers
-and **delete** your `${APP_SRC}` folder!
+So, before executing this command, **BE SURE** you understood very well that
+you're going to lose all your Laravel codebase and the related database!
 
 ```bash
 .docker/scripts/nah
-``` 
+```
+
+To throw away anything and start again from the scratch, use
+```bash
+.docker/scripts/nah && .docker/scripts/init && .docker/scripts/wp-install
+```
 
 ## Accessing the database
 
