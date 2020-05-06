@@ -33,6 +33,10 @@ You can choose which version of PHP (for example, `7.4`) to run by setting `$PHP
 Likewise, you can choose your database (for example, `MariaDB 10.2`) by setting `$DATABASE_IMAGE` variable in your
 `.env` file (see `.env.example` for details)
 
+In case you want to customize your Docker configuration (e.g. adding some mount),
+just run `cp docker-compose.yml docker-compose.override.yml` then edit your
+`docker-compose.override.yml`. It will be used by Docker. 
+
 ## Requirements
 
 * MacOS, Linux or Windows with WSL
