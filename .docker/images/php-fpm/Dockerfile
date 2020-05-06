@@ -20,6 +20,9 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     && docker-php-ext-enable xdebug ;\
 fi;
 
+# Required for fixing an error while installing pdftk 
+RUN mkdir /usr/share/man/man1/
+
 # Install dependencies
 RUN apt-get update && \
     apt-get install -y --no-install-recommends curl \
@@ -37,7 +40,8 @@ RUN apt-get update && \
     unzip \
     libzip-dev \
     libfreetype6-dev \
-    libjpeg62-turbo-dev
+    libjpeg62-turbo-dev \
+    pdftk
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
