@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.6.0] - 2020-05-14
+### Added
+- add `README.it.md` (README in Italian language)
+- minor updates to `README.md` 
+
 ## [1.5.1] - 2020-05-06
 ### Added
 - add `docker-compose.override.yml` to `.gitignore` so one can
