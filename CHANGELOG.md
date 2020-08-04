@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.6.1] - 2020-08-04
+### Changed
+- update init script - use CONTAINER_PREFIX also for image names
+
 ## [1.6.0] - 2020-05-14
 ### Added
 - add `README.it.md` (README in Italian language)
