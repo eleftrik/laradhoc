@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.6.2] - 2020-08-05
+### Fixed
+- update stop script - after version 1.6.1, containers didn't stop
+
 ## [1.6.1] - 2020-08-04
 ### Changed
 - update init script - use CONTAINER_PREFIX also for image names
