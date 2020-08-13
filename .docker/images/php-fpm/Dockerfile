@@ -20,7 +20,7 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     && docker-php-ext-enable xdebug ;\
 fi;
 
-# Required for fixing an error while installing pdftk 
+# Required for fixing an error while installing pdftk
 RUN mkdir /usr/share/man/man1/
 
 # Install dependencies
@@ -41,12 +41,15 @@ RUN apt-get update && \
     libzip-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    pdftk
+    pdftk \
+    libldap2-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN docker-php-ext-install pdo_mysql \
     pcntl \

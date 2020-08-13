@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.7.0] - 2020-08-13
+### Added
+- add LDAP extension to php-fpm container
+
 ## [1.6.3] - 2020-08-05
 ### Fixed
 - update start script - stop and start again didn't work due to inconsistent names
