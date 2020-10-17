@@ -20,6 +20,7 @@ Looking for a similar Docker environment for [WordPress](https://wordpress.org/)
 * Nginx
 * PHP (7.2 / 7.3 / 7.4) with OPCache
 * MySQL / MariaDB
+* MongoDB
 * phpMyAdmin
 * Mailhog
 * Redis
@@ -272,7 +273,7 @@ To throw away anything and start again from the scratch, use
 .docker/scripts/nah && .docker/scripts/init && .docker/scripts/wp-install
 ```
 
-## Accessing the database
+## Accessing MySQL/MariaDB database
 
 ### Via phpMyAdmin
 You can use phpMyAdmin: [http://${APP_HOST}:${PHPMYADMIN_PORT}]()
@@ -295,6 +296,26 @@ I bet you prefer to use your favorite tool, for example:
 etc.
 
 Just use the parameters stored in your .env file.
+
+
+## Accessing MongoDB
+
+MongoDB is listening on port 27017.
+
+In the following examples, of course you have to replace
+`user`, `password` and `laradhoc` with the current values of your
+`MONGODB_USER`, `MONGODB_PASSWORD` and `MONGODB_DATABASE` environment variables.
+
+If in your host you did install *mongo* CLI, you can access through command line:
+
+```shell script
+mongo -u user -p password laradhoc
+```
+
+Otherwise, you can access through with your favourite tool, using this connection string:
+
+`mongodb://user:password@localhost/laradhoc`
+
 
 ## MailHog
 

@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.8.0] - 2020-10-17
+### Added
+- add MongoDB support
+
 ## [1.7.0] - 2020-08-13
 ### Added
 - add LDAP extension to php-fpm container

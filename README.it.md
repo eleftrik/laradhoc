@@ -19,6 +19,7 @@ Cerchi qualcosa di simile per [WordPress](https://wordpress.org/)? Dai un'occhia
 * Nginx
 * PHP (7.2 / 7.3 / 7.4) con OPCache
 * MySQL / MariaDB
+* MongoDB
 * phpMyAdmin
 * Mailhog
 * Redis
@@ -271,7 +272,7 @@ Per far fuori tutto e ripartire da zero, esegui
 .docker/scripts/nah && .docker/scripts/init && .docker/scripts/wp-install
 ```
 
-## Accedere al database
+## Accedere al database MySQL/MariaDB
 
 ### Via phpMyAdmin
 Puoi utilizzare phpMyAdmin: [http://${APP_HOST}:${PHPMYADMIN_PORT}]()
@@ -294,6 +295,26 @@ Però scommetto che preferisci utilizzare la tua applicazione preferita, ad esem
 ecc.
 
 Utilizza i parametri presenti nel tuo file `.env`.
+
+
+## Accedere a MongoDB
+
+La porta sulla quale MongoDB è in ascolto è la 27017.
+
+Nei seguenti esempi, chiaramente devi sostituire
+`user`, `password` e `laradhoc` con gli attuali valori delle variabili di ambiente
+`MONGODB_USER`, `MONGODB_PASSWORD` e `MONGODB_DATABASE`.
+
+Se sul tuo host è presente il client da riga di comando *mongo*, puoi accedere tramite CLI:
+
+```shell script
+mongo -u user -p password laradhoc
+```
+
+Oppure puoi utilizzare un'applicazione, inserendo come stringa di connessione
+
+`mongodb://user:password@localhost/laradhoc`
+
 
 ## MailHog
 

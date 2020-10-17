@@ -65,7 +65,8 @@ RUN if [[ ${PHP_VERSION} == 7.2* ]] || [[ ${PHP_VERSION} == 7.3* ]] ; then \
     docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
     && docker-php-ext-install gd;\
 fi;
-RUN docker-php-ext-install opcache
+RUN docker-php-ext-install opcache \
+    && pecl install mongodb && docker-php-ext-enable mongodb
 
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
