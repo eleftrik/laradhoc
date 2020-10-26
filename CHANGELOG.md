@@ -10,6 +10,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 (no unreleased versions)
 
+## [1.8.1] - 2020-10-26
+### Fixed
+- expose port 6379 to make Redis reachable from host machine
+
 ## [1.8.0] - 2020-10-17
 ### Added
 - add MongoDB support

@@ -97,6 +97,8 @@ services:
       context: ./.docker/images/redis
     expose:
       - 6379
+    ports:
+      - 6379:6379
   mailhog:
     restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_mailhog
