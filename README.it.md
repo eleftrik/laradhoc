@@ -48,7 +48,7 @@ esegui `cp docker-compose.yml docker-compose.override.yml` quindi modifica il fi
 
 Clona questo repository.
 
-Supponiamo che la tua applicazione WordPress debba essere accessibile all'indirizzo `laradhoc.test`:
+Supponiamo che la tua applicazione Laravel debba essere accessibile all'indirizzo `laradhoc.test`:
 
 ```bash
 git clone git@github.com:eleftrik/laradhoc.git laradhoc.test
