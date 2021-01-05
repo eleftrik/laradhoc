@@ -1,7 +1,7 @@
 version: '3.2'
 services:
   database:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_database
     tty: true
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
@@ -24,7 +24,7 @@ services:
     depends_on:
       - nginx
   phpmyadmin:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_phpmyadmin
     build:
       context: ./.docker/images/phpmyadmin
@@ -39,7 +39,7 @@ services:
     depends_on:
       - database
   mongodb:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_mongodb
     build:
       context: ./.docker/images/mongodb
@@ -60,7 +60,7 @@ services:
     volumes:
       - mongodb-data:/data/db
   nginx:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_nginx
     working_dir: /var/www/
     build:
@@ -91,7 +91,7 @@ services:
     volumes:
       - ${APP_SRC}:/var/www/:cached
   redis:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_redis
     build:
       context: ./.docker/images/redis
@@ -109,7 +109,7 @@ services:
     ports:
       - ${MAILHOG_PORT}:8025
   echo-server:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_echo-server
     build:
       context: ./.docker/images/echo-server
