@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - support for PHP `8.0`
 
 
+## [1.8.3] - 2021-01-11
+### Fixed
+- GD library support
+
 ## [1.8.2] - 2021-01-05
 ### Fixed
 - `restart` property is now set to `unless-stopped` for all containers 

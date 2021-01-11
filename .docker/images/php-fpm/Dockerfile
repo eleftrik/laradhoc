@@ -30,6 +30,7 @@ RUN apt-get update && \
     libz-dev \
     libjpeg-dev \
     libpng-dev \
+    libwebp-dev \
     libssl-dev \
     libmcrypt-dev \
     less \
@@ -57,14 +58,17 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN if [[ ${PHP_VERSION} == 7.4* ]] ; then \
-    docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j "$(nproc)" gd; \
-fi;
-RUN if [[ ${PHP_VERSION} == 7.2* ]] || [[ ${PHP_VERSION} == 7.3* ]] ; then \
-    docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
-    && docker-php-ext-install gd;\
-fi;
+RUN case ${PHP_VERSION} in \
+    "7.4"*) \
+        docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+        && docker-php-ext-install gd; \
+        ;; \
+    *) \  
+        docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/ \
+        && docker-php-ext-install gd \
+        ;; \
+    esac;
 RUN docker-php-ext-install opcache \
     && pecl install mongodb && docker-php-ext-enable mongodb
 
