@@ -8,8 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- support for PHP `8.0`
+No unreleased versions
 
+## [1.9.0] - 2021-01-24
+### Added
+- Support for PHP 8.0
 
 ## [1.8.3] - 2021-01-11
 ### Fixed

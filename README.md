@@ -18,7 +18,7 @@ Looking for a similar Docker environment for [WordPress](https://wordpress.org/)
 
 ## Features
 * Nginx
-* PHP (7.2 / 7.3 / 7.4) with OPCache
+* PHP (7.2 / 7.3 / 7.4 / 8.0) with OPCache
 * MySQL / MariaDB
 * MongoDB
 * phpMyAdmin

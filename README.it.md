@@ -17,7 +17,7 @@ Cerchi qualcosa di simile per [WordPress](https://wordpress.org/)? Dai un'occhia
 
 ## Caratteristiche
 * Nginx
-* PHP (7.2 / 7.3 / 7.4) con OPCache
+* PHP (7.2 / 7.3 / 7.4 / 8.0) con OPCache
 * MySQL / MariaDB
 * MongoDB
 * phpMyAdmin
