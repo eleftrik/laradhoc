@@ -1,23 +1,11 @@
-FROM php:7.4-fpm
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm
 
 # Set working directory
 WORKDIR /var/www
 
-ARG ENABLE_XDEBUG
-RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
-    pecl install xdebug \
-    && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.idekey='PHPSTORM'" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo "xdebug.profiler_output_dir='/opt/profile'" >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && docker-php-ext-enable xdebug ;\
-fi;
+# Required for fixing an error while installing pdftk
+RUN mkdir /usr/share/man/man1/
 
 # Install dependencies
 RUN apt-get update && \
@@ -26,6 +14,7 @@ RUN apt-get update && \
     libz-dev \
     libjpeg-dev \
     libpng-dev \
+    libwebp-dev \
     libssl-dev \
     libmcrypt-dev \
     less \
@@ -36,12 +25,16 @@ RUN apt-get update && \
     unzip \
     libzip-dev \
     libfreetype6-dev \
-    libjpeg62-turbo-dev
+    libjpeg62-turbo-dev \
+    pdftk \
+    libldap2-dev
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions
+RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ && \
+    docker-php-ext-install ldap
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 RUN docker-php-ext-install pdo_mysql \
     pcntl \
@@ -49,14 +42,55 @@ RUN docker-php-ext-install pdo_mysql \
 RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j "$(nproc)" gd \
-    && docker-php-ext-install opcache
+RUN case ${PHP_VERSION} in \
+    8.0*|7.4*) \
+        docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
+        && docker-php-ext-install gd; \
+        ;; \
+    *) \
+        docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+        --with-webp-dir=/usr/include/ \
+        && docker-php-ext-install gd \
+        ;; \
+    esac;
+RUN docker-php-ext-install opcache \
+    && pecl install mongodb && docker-php-ext-enable mongodb
 
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN sed -e 's/max_execution_time = 30/max_execution_time = 600/' -i "$PHP_INI_DIR/php.ini"
 RUN sed -e 's/memory_limit = 128M/memory_limit = 512M/' -i "$PHP_INI_DIR/php.ini"
+
+ARG ENABLE_XDEBUG
+RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
+    pecl install xdebug; \
+    case ${PHP_VERSION} in \
+        8.0*) \
+            echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.mode=profile" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.discover_client_host=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.idekey='PHPSTORM'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.output_dir='/opt/profile'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && docker-php-ext-enable xdebug ;\
+            ;; \
+        *) \
+            echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.idekey='PHPSTORM'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.profiler_enable_trigger=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.profiler_output_dir='/opt/profile'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && docker-php-ext-enable xdebug ;\
+            ;; \
+    esac; \
+fi;
 
 # Cron
 COPY ./cron /etc/cron.d/cron

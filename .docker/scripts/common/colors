@@ -1,0 +1,6 @@
+#!/bin/bash
+WHITE='\033[1;37m'
+ERROR='\033[0;31m'
+INFO='\033[0;32m'
+WARNING='\033[0;33m'
+NC='\033[0m'

@@ -1,2 +1,3 @@
 #!/bin/bash
-docker-compose down
+source .env
+docker-compose --project-name "$CONTAINER_PREFIX" down

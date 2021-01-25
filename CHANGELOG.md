@@ -8,7 +8,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-(no unreleased versions)
+No unreleased versions
+
+## [2.0.0] - 2021-01-24
+### Changed
+- add `./bin/laradhoc` as a common entrypoint to run commands
+- add commands / aliases (see `./bin/laradhoc help`)   
+- use Composer 2
+
+## [1.9.0] - 2021-01-24
+### Added
+- support for PHP 8.0
+
+## [1.8.3] - 2021-01-11
+### Fixed
+- GD library support
+
+## [1.8.2] - 2021-01-05
+### Fixed
+- `restart` property is now set to `unless-stopped` for all containers 
+
+## [1.8.1] - 2020-10-26
+### Fixed
+- expose port 6379 to make Redis reachable from host machine
+
+## [1.8.0] - 2020-10-17
+### Added
+- add MongoDB support
+
+## [1.7.0] - 2020-08-13
+### Added
+- add LDAP extension to php-fpm container
+
+## [1.6.3] - 2020-08-05
+### Fixed
+- update start script - stop and start again didn't work due to inconsistent names
+
+## [1.6.2] - 2020-08-05
+### Fixed
+- update stop script - after version 1.6.1, containers didn't stop
+
+## [1.6.1] - 2020-08-04
+### Changed
+- update init script - use CONTAINER_PREFIX also for image names
+
+## [1.6.0] - 2020-05-14
+### Added
+- add `README.it.md` (README in Italian language)
+- minor updates to `README.md` 
+
+## [1.5.1] - 2020-05-06
+### Added
+- add `docker-compose.override.yml` to `.gitignore` so one can
+  customize the configuration (e.g. bind mounts, etc.)
+### Fixed
+- minor updates to `README.md`
+
+## [1.5.0] - 2020-04-27
+### Added
+- add `$PHP_VERSION` env variable to choose PHP version (between `7.2`, `7.3`, `7.4`)
+### Changed
+- improve `.env.example` readability
+
+## [1.4.1] - 2020-04-23
+### Fixed
+- fix HTTPS not working due to a missing arg in docker-compose.yml
+
+## [1.4.0] - 2020-04-22
+### Added
+- add `$DATABASE_IMAGE` env variable to choose database image (MySQL or MariaDB, with optional tags)
+
+## [1.3.0] - 2020-04-13
+### Added
+- `gulp` script to run `gulp` (for old projects)
 
 ## [1.2.1] - 2020-04-04
 ### Fixed

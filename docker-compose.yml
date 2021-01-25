@@ -1,12 +1,14 @@
-version: '3'
+version: '3.2'
 services:
   database:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_database
     tty: true
     command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci','--default-authentication-plugin=mysql_native_password']
     build:
       context: ./.docker/images/mysql
+      args:
+        - DATABASE_IMAGE=${DATABASE_IMAGE}
     environment:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
@@ -22,7 +24,7 @@ services:
     depends_on:
       - nginx
   phpmyadmin:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_phpmyadmin
     build:
       context: ./.docker/images/phpmyadmin
@@ -36,14 +38,36 @@ services:
       - ${PHPMYADMIN_PORT}:80
     depends_on:
       - database
+  mongodb:
+    restart: unless-stopped
+    container_name: ${CONTAINER_PREFIX}_mongodb
+    build:
+      context: ./.docker/images/mongodb
+      args:
+        - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USER}
+        - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+        - MONGODB_DATABASE=${MONGODB_DATABASE}
+        - MONGODB_USER=${MONGODB_USER}
+        - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGODB_ROOT_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_ROOT_PASSWORD}
+      - MONGODB_DATABASE=${MONGODB_DATABASE}
+      - MONGODB_USER=${MONGODB_USER}
+      - MONGODB_PASSWORD=${MONGODB_PASSWORD}
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db
   nginx:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_nginx
     working_dir: /var/www/
     build:
       context: ./.docker/images/nginx
       args:
         - APP_HOST=${APP_HOST}
+        - NGINX_ENABLE_HTTPS=${NGINX_ENABLE_HTTPS}
     volumes:
       - ${APP_SRC}:/var/www/:cached
       - ./.docker/images/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -62,16 +86,19 @@ services:
     build:
       context: ./.docker/images/php-fpm
       args:
+        - PHP_VERSION=${PHP_VERSION}
         - ENABLE_XDEBUG=${ENABLE_XDEBUG}
     volumes:
       - ${APP_SRC}:/var/www/:cached
   redis:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_redis
     build:
       context: ./.docker/images/redis
     expose:
       - 6379
+    ports:
+      - 6379:6379
   mailhog:
     restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_mailhog
@@ -82,7 +109,7 @@ services:
     ports:
       - ${MAILHOG_PORT}:8025
   echo-server:
-    restart: always
+    restart: unless-stopped
     container_name: ${CONTAINER_PREFIX}_echo-server
     build:
       context: ./.docker/images/echo-server
@@ -108,3 +135,4 @@ services:
       - ${APP_SRC}:/var/www:cached
 volumes:
   sql-data:
+  mongodb-data:
