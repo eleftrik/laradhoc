@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No unreleased versions
 
+## [2.0.1] - 2021-01-25
+### Fixed
+- `./bin/laradhoc` checks if `.env` file exists 
+- `./bin/laradhoc help` can be run even without `.env` file or without
+  running containers
+
 ## [2.0.0] - 2021-01-24
 ### Changed
 - add `./bin/laradhoc` as a common entrypoint to run commands
