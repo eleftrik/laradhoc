@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+LARADHOC_VERSION=2.0.0
+
+source .docker/scripts/common/colors
+
+echo -e "\n${WHITE}Laradhoc ${INFO}${LARADHOC_VERSION}${NC}\n" >&2
+
+# Ensure that Docker is running
+if ! docker info > /dev/null 2>&1; then
+    echo -e "${ERROR}Docker is not running.${NC}\n" >&2
+
+    exit 1
+fi
+
+# Ensure containers are running
+PSRESULT="$(docker-compose ps -q)"
+if ! docker-compose ps &> /dev/null; then
+    EXEC="no"
+elif [ -n "$PSRESULT" ]; then
+    EXEC="yes"
+else
+    EXEC="no"
+fi
+
+function check_if_is_running {
+    if [ $EXEC == "no" ]; then
+      echo -e "${ERROR}Laradhoc is not running.${NC}" >&2
+      echo "" >&2
+      echo -e "You may start Laradhoc using the following command:${INFO} ./vendor/bin/laradhoc up${NC}\n" >&2
+
+      exit 1
+    fi
+}
+
+COMMAND=$1
+shift 1
+
+if [ "$COMMAND" == "" ] || [ "$COMMAND" == "help" ] ; then
+  .docker/scripts/help
+elif [ "$COMMAND" == "init" ]; then
+  .docker/scripts/init
+elif [ "$COMMAND" == "build" ]; then
+  .docker/scripts/start --build
+elif [ "$COMMAND" == "init-laravel" ]; then
+  .docker/scripts/init-laravel
+elif [ "$COMMAND" == "install-laravel" ]; then
+  .docker/scripts/install-laravel
+elif [ "$COMMAND" == "up" ] || [ "$COMMAND" == "start" ]; then
+  .docker/scripts/start
+elif [ "$COMMAND" == "down" ] || [ "$COMMAND" == "stop" ]; then
+  check_if_is_running
+  .docker/scripts/stop
+elif [ "$COMMAND" == "artisan" ] || [ "$COMMAND" == "art" ]; then
+  check_if_is_running
+  .docker/scripts/artisan $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+elif [ "$COMMAND" == "tinker" ]; then
+  check_if_is_running
+  .docker/scripts/artisan tinker
+elif [ "$COMMAND" == "composer" ]; then
+  check_if_is_running
+  .docker/scripts/composer $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+elif [ "$COMMAND" == "test" ]; then
+  check_if_is_running
+  .docker/scripts/artisan test $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+elif [ "$COMMAND" == "ps" ]; then
+  check_if_is_running
+  docker-compose ps
+elif [ "$COMMAND" == "nah" ]; then
+  check_if_is_running
+  .docker/scripts/nah
+elif [ "$COMMAND" == "node" ]; then
+  check_if_is_running
+  .docker/scripts/node $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+elif [ "$COMMAND" == "gulp" ]; then
+  check_if_is_running
+  .docker/scripts/gulp $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+else
+  echo -e "\n${ERROR}Command '$COMMAND' not defined.${NC}\n"
+fi

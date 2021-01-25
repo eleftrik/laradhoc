@@ -1,6 +1,8 @@
 #!/bin/bash
 
-echo -e "\n!!!!!!!!! WARNING !!!!!!!!!\n"
+source .docker/scripts/common/colors
+
+echo -e "\n${ERROR}!!!!!!!!! WARNING !!!!!!!!!${NC}\n"
 echo "- all volumes will be REMOVED (you'll loose your MySql data)"
 echo "- the ${APP_SRC} folder will be DELETED"
 echo "- all containers will be stopped "

@@ -1,0 +1,20 @@
+source .docker/scripts/common/colors
+
+echo -e "${WARNING}Here a list of available commands:${NC}"
+echo -e "  ${INFO}init${NC}            Init the project"
+echo -e "  ${INFO}start${NC}           Start the containers"
+echo -e "  ${INFO}up${NC}              Same as 'start'"
+echo -e "  ${INFO}stop${NC}            Stop the containers"
+echo -e "  ${INFO}down${NC}            Same as 'stop'"
+echo -e "  ${INFO}build${NC}           Start and rebuild the containers"
+echo -e "  ${INFO}install-laravel${NC} Install a fresh copy of Laravel"
+echo -e "  ${INFO}init-laravel${NC}    Init .env Laravel's file and install Composer dependencies"
+echo -e "  ${INFO}artisan${NC}         Run artisan commands"
+echo -e "  ${INFO}tinker${NC}          Run 'php artisan tinker'"
+echo -e "  ${INFO}composer${NC}        Run composer commands"
+echo -e "  ${INFO}test${NC}            Run tests ('php artisan tests')"
+echo -e "  ${INFO}node${NC}            Run node container commands (e.g. 'node npm install')"
+echo -e "  ${INFO}ps${NC}              Show running containers according to docker-compose file"
+echo -e "  ${INFO}nah${NC}             Discard everything (volumes, src/)"
+echo -e "  ${INFO}help${NC}            Show this help"
+

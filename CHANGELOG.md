@@ -10,9 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No unreleased versions
 
+## [2.0.0] - 2021-01-24
+### Changed
+- add `./bin/laradhoc` as a common entrypoint to run commands
+- add commands / aliases (see `./bin/laradhoc help`)   
+- use Composer 2
+
 ## [1.9.0] - 2021-01-24
 ### Added
-- Support for PHP 8.0
+- support for PHP 8.0
 
 ## [1.8.3] - 2021-01-11
 ### Fixed

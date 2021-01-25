@@ -9,6 +9,8 @@ Laradhoc
 ![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
 
+🆕 ✅ *Rilasciata la versione **2.0.0** con qualche miglioramento!*
+
 **Laradhoc** è un semplice ambiente di sviluppo LEMP basato su Docker per applicazioni [Laravel](https://laravel.com/).
 
 Cerchi qualcosa di simile per [WordPress](https://wordpress.org/)? Dai un'occhiata a
@@ -18,6 +20,7 @@ Cerchi qualcosa di simile per [WordPress](https://wordpress.org/)? Dai un'occhia
 ## Caratteristiche
 * Nginx
 * PHP (7.2 / 7.3 / 7.4 / 8.0) con OPCache
+* Composer 2.0
 * MySQL / MariaDB
 * MongoDB
 * phpMyAdmin
@@ -93,7 +96,7 @@ dal tuo sistema operativo / browser.
 
 Esegui la *build* di tutti i container Docker e avviali
 ```bash
- .docker/scripts/init
+ ./bin/laradhoc init
 ```
 
 ---
@@ -107,7 +110,7 @@ Devi crearne una nuova da zero o usarne una esistente?
 Progetto Laravel nuovo di zecca? Nessun problema! Esegui:
 
 ```bash
-./.docker/scripts/install-laravel
+./bin/laradhoc install-laravel
 ```
 Un'applicazione Laravel fresca fresca verrà scaricata in `${APP_SRC}`, configurata e disponibile all'indirizzo [http://${APP_HOST}]()
 o [https://${APP_HOST}]()
@@ -121,7 +124,7 @@ in quella cartella.
 
 Quindi lancia:
 ```bash
-./.docker/scripts/init-laravel
+./bin/laradhoc init-laravel
 ```
 
 Laradhoc proverà a cercare il file `.env` (se non lo trova, lo copierà da `.env.example`).
@@ -134,24 +137,24 @@ Infine, installerà le dipendenze Composer e una chiave verrà generata dal soli
 Ricordati di eseguire le tue migration e gli eventuali seed:
 
 ```bash
-./.docker/scripts/artisan migrate --seed
+./bin/laradhoc artisan migrate --seed
 ```
 
 Infine, occupati di tutto ciò che è richiesto dalla tua applicazione Laravel per poter essere eseguita correttamente.
 Ad esempio:
-* `./.docker/scripts/artisan passport:install --force`
-* `./.docker/scripts/node npm install && ./.docker/scripts/node npm run dev`
+* `./bin/laradhoc artisan passport:install --force`
+* `./bin/laradhoc node npm install && ./bin/laradhoc node npm run dev`
 * ecc.
 --- 
 
 Stufo di lavorare? Ferma tutto:
 ```bash
-./.docker/scripts/stop
+./bin/laradhoc stop
 ```
 La prossima volta che hai bisogno di eseguire la tua applicazione, se non hai modificato nulla a livello di
 configurazione Docker, esegui
 ```bash
- .docker/scripts/start
+./bin/laradhoc start
 ```
 
 <b>N.B.</b> Nginx eseguirà il proxy di tutte le richieste dirette a `socket.io` verso il container `laravel-echo`.
@@ -170,7 +173,7 @@ Quando esegui l'aggiornamento a partire da una versione precedente, segui questi
 - se hai sovrascritto `docker-compose.yml` tramite `docker-compose.override.yml`, consulta
   `docker-compose.yml` per verificare se qualcosa è stato aggiunto, modificato o eliminato, confrontando
   con la precedente versione del file `docker-compose.yml` che stavi usando prima di effettuare l'aggiornamento 
-- esegui `.docker/scripts/start --build`
+- esegui `./bin/laradhoc start --build`
 
 ## Script
 
@@ -181,7 +184,7 @@ Eseguili dalla cartella base in cui hai collocato Laradhoc.
 ### init
 
 ```bash
-.docker/scripts/init
+./bin/laradhoc init
 ```
 
 Si occupa di
@@ -189,10 +192,14 @@ Si occupa di
 * creare un certificato auto-generato (se hai impostato `NGINX_ENABLE_HTTPS=1`)
 * eseguire la *build* dei container ed avviarli
 
-### start
+### start | up
 
 ```bash
-.docker/scripts/start
+./bin/laradhoc start
+```
+oppure 
+```bash
+./bin/laradhoc up
 ```
 
 E' una scorciatoia per 
@@ -201,16 +208,28 @@ docker-compose up -d
 ```
 Puoi utilizzare il flag `--build` se vuoi eseguire la *build* dei container, altrimenti
 ```bash
-.docker/scripts/start
+./bin/laradhoc start
 ```
 è sufficiente per tirare su l'ambiente di sviluppo
 
-### stop
+### build
+
+Se vuoi (ri)costruire le immagini, lancia
+```bash
+./bin/laradhoc build
+```
+
+### stop | down
 
 Stanco di lavorare?
 ```bash
-.docker/scripts/stop
+./bin/laradhoc stop
 ```
+oppure 
+```bash
+./bin/laradhoc down
+```
+
 
 ### install-laravel
 Utile per tirare su un nuovo progetto Laravel da zero.
@@ -218,34 +237,34 @@ Rende disponibile una nuova installazione di Laravel nella cartella `${APP_SRC}`
 quindi crea un file `${APP_SRC}/.env` contenente gli stessi valori presenti nel file `.env` principale.
 
 ```bash
-.docker/scripts/install-laravel
+./bin/laradhoc install-laravel
 ```
 
 ### init-laravel
 Aggiorna il file `.env` usato da Laravel utilizzando i valori delle variabili presenti nel
 file `.env` principale
 ```bash
-.docker/scripts/init-laravel
+./bin/laradhoc init-laravel
 ```
 
 ### artisan
 Esegue un comando *artisan* all'interno del container `php-fpm`.
 Esempio:
 ```bash
-.docker/scripts/artisan make:migration create_example_table
+./bin/laradhoc artisan make:migration create_example_table
 ``` 
 
 ### composer
 Esegue un comando *composer* all'interno del container `composer`.
 Esempio:
 ```bash
-.docker/scripts/composer install
+./bin/laradhoc composer install
 ``` 
 ### node
 Esegue un comando attraverso il container `node`.
 Esempio:
 ```bash
-.docker/scripts/node yarn run production
+./bin/laradhoc node yarn run production
 ``` 
 ### gulp
 Hai bisogno di far girare un vecchio progetto che utilizza ancora `gulp`?
@@ -253,8 +272,31 @@ Nessun problema: questo script esegue Gulp e compila i tuoi *asset*.
 
 Esempio:
 ```bash
-.docker/scripts/gulp watch
+./bin/laradhoc gulp watch
 ``` 
+
+### test
+Esegue i test tramite PHPUnit:
+
+```bash
+./bin/laradhoc test
+``` 
+
+### ps
+Mostra i container in esecuzione, sulla base di quanto definito
+nel file docker-compose:
+
+```bash
+./bin/laradhoc ps
+``` 
+
+E' un sinonimo di 
+
+```bash
+docker-compose ps
+``` 
+
+
 
 ### nah
 Vuoi far fuori **tutto**?
@@ -264,13 +306,23 @@ Per cui, prima di eseguirlo, **ASSICURATI** di aver compreso davvero bene che
 perderai tutta la tua *codebase* Laravel e il relativo database!
 
 ```bash
-.docker/scripts/nah
+./bin/laradhoc nah
 ```
 
 Per far fuori tutto e ripartire da zero, esegui
 ```bash
-.docker/scripts/nah && .docker/scripts/init && .docker/scripts/wp-install
+./bin/laradhoc nah && ./bin/laradhoc init && ./bin/laradhoc laravel-install
 ```
+
+
+### help
+Questo comando mostra un breve aiuto, elencando i comandi
+disponibili:
+
+```bash
+./bin/laradhoc help
+``` 
+
 
 ## Accedere al database MySQL/MariaDB
 
