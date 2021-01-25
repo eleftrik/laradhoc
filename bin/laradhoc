@@ -1,14 +1,32 @@
 #!/usr/bin/env bash
 
-LARADHOC_VERSION=2.0.0
+LARADHOC_VERSION=2.0.1
 
 source .docker/scripts/common/colors
 
 echo -e "\n${WHITE}Laradhoc ${INFO}${LARADHOC_VERSION}${NC}\n" >&2
 
+COMMAND=$1
+shift 1
+
+if [ "$COMMAND" == "" ] || [ "$COMMAND" == "help" ] ; then
+  .docker/scripts/help
+  exit 0
+fi
+
 # Ensure that Docker is running
 if ! docker info > /dev/null 2>&1; then
     echo -e "${ERROR}Docker is not running.${NC}\n" >&2
+
+    exit 1
+fi
+
+# Ensure .env has been created
+if [ ! -f .env ]; then
+    echo -e "${ERROR}.env not found!${NC}\n" >&2
+    echo -e "Please, create a .env file before running commands.\n" >&2
+    echo -e "Run: cp .env.example .env\n" >&2
+    echo -e "Then edit your .env (see README.md)" >&2
 
     exit 1
 fi
@@ -33,12 +51,8 @@ function check_if_is_running {
     fi
 }
 
-COMMAND=$1
-shift 1
 
-if [ "$COMMAND" == "" ] || [ "$COMMAND" == "help" ] ; then
-  .docker/scripts/help
-elif [ "$COMMAND" == "init" ]; then
+if [ "$COMMAND" == "init" ]; then
   .docker/scripts/init
 elif [ "$COMMAND" == "build" ]; then
   .docker/scripts/start --build
