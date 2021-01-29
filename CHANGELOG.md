@@ -10,6 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No unreleased versions
 
+## [2.0.2] - 2021-01-29
+### Fixed
+- wrong `Laradhoc is not running` message error even if Laradhoc is up
+- fix `composer` version
+- fix `artisan` command and remove `XDEBUG` warnings 
+
+
 ## [2.0.1] - 2021-01-25
 ### Fixed
 - `./bin/laradhoc` checks if `.env` file exists 

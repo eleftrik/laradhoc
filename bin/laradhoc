@@ -31,9 +31,11 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
+source .env
+
 # Ensure containers are running
-PSRESULT="$(docker-compose ps -q)"
-if ! docker-compose ps &> /dev/null; then
+PSRESULT="$(docker-compose -p $CONTAINER_PREFIX ps -q)"
+if ! docker-compose -p $CONTAINER_PREFIX ps &> /dev/null; then
     EXEC="no"
 elif [ -n "$PSRESULT" ]; then
     EXEC="yes"
@@ -79,7 +81,7 @@ elif [ "$COMMAND" == "test" ]; then
   .docker/scripts/artisan test $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "ps" ]; then
   check_if_is_running
-  docker-compose ps
+  docker-compose -p $CONTAINER_PREFIX ps
 elif [ "$COMMAND" == "nah" ]; then
   check_if_is_running
   .docker/scripts/nah
