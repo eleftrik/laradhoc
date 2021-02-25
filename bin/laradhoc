@@ -84,6 +84,9 @@ elif [ "$COMMAND" == "composer" ]; then
 elif [ "$COMMAND" == "test" ]; then
   check_if_is_running
   ${SCRIPTS_DIR}artisan test $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+elif [ "$COMMAND" == "phpunit" ]; then
+  check_if_is_running
+  ${SCRIPTS_DIR}phpunit $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "ps" ]; then
   check_if_is_running
   docker-compose --project-directory ${LARADHOC_BASE_PATH} -p $CONTAINER_PREFIX ps

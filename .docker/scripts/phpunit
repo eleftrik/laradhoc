@@ -1,0 +1,3 @@
+#!/bin/bash
+source ${LARADHOC_BASE_PATH}/.env
+docker-compose --project-directory ${LARADHOC_BASE_PATH} -p $CONTAINER_PREFIX exec php-fpm ./vendor/bin/phpunit $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
