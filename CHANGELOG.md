@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 No unreleased versions
 
+## [2.1.0] - 2021-02-25
+### Changed
+- `laradhoc` binary can now be invoked outside Laradhoc's folder
+  (e.g. inside `src` folder)
+  
 ## [2.0.2] - 2021-01-29
 ### Fixed
 - wrong `Laradhoc is not running` message error even if Laradhoc is up

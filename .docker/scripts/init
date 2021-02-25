@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source .env
+source ${LARADHOC_BASE_PATH}/.env
 
-KEY_PATH="$(pwd)/.docker/images/nginx/ssl"
+KEY_PATH="${LARADHOC_BASE_PATH}/.docker/images/nginx/ssl"
 
 if [ $NGINX_ENABLE_HTTPS == 1 ] && ! [ -x "$(command -v openssl)" ]; then
   echo -e "\nError: openssl is not installed." >&2
@@ -18,4 +18,4 @@ if [ $NGINX_ENABLE_HTTPS == 1 ] ; then
     -keyout ${KEY_PATH}/${APP_HOST}.key 2>/dev/null
 fi
 
-docker-compose --project-name "$CONTAINER_PREFIX" up -d --build $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+docker-compose --project-directory ${LARADHOC_BASE_PATH} --project-name "$CONTAINER_PREFIX" up -d --build $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}

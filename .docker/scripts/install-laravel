@@ -1,5 +1,5 @@
 #!/bin/bash
-source .env
-mkdir -p $APP_SRC
-docker-compose --project-name "$CONTAINER_PREFIX" run composer create-project --prefer-dist laravel/laravel .
-.docker/scripts/init-laravel --new
+source ${LARADHOC_BASE_PATH}/.env
+mkdir -p ${LARADHOC_BASE_PATH}/$APP_SRC
+docker-compose --project-directory ${LARADHOC_BASE_PATH} --project-name "$CONTAINER_PREFIX" run composer create-project --prefer-dist laravel/laravel .
+${LARADHOC_BASE_PATH}/.docker/scripts/init-laravel --new

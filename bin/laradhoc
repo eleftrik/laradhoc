@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 
-LARADHOC_VERSION=2.0.1
+LARADHOC_VERSION=2.1.0
 
-source .docker/scripts/common/colors
+SCRIPT=`realpath $0`
+SCRIPT_PATH=`dirname $SCRIPT`
+export LARADHOC_BASE_PATH=`dirname $SCRIPT_PATH`
+
+source ${LARADHOC_BASE_PATH}/.docker/scripts/common/colors
 
 echo -e "\n${WHITE}Laradhoc ${INFO}${LARADHOC_VERSION}${NC}\n" >&2
 
@@ -10,7 +14,7 @@ COMMAND=$1
 shift 1
 
 if [ "$COMMAND" == "" ] || [ "$COMMAND" == "help" ] ; then
-  .docker/scripts/help
+  ${LARADHOC_BASE_PATH}/.docker/scripts/help
   exit 0
 fi
 
@@ -22,7 +26,7 @@ if ! docker info > /dev/null 2>&1; then
 fi
 
 # Ensure .env has been created
-if [ ! -f .env ]; then
+if [ ! -f ${LARADHOC_BASE_PATH}/.env ]; then
     echo -e "${ERROR}.env not found!${NC}\n" >&2
     echo -e "Please, create a .env file before running commands.\n" >&2
     echo -e "Run: cp .env.example .env\n" >&2
@@ -31,11 +35,11 @@ if [ ! -f .env ]; then
     exit 1
 fi
 
-source .env
+source ${LARADHOC_BASE_PATH}/.env
 
 # Ensure containers are running
-PSRESULT="$(docker-compose -p $CONTAINER_PREFIX ps -q)"
-if ! docker-compose -p $CONTAINER_PREFIX ps &> /dev/null; then
+PSRESULT="$(docker-compose --project-directory ${LARADHOC_BASE_PATH} -p $CONTAINER_PREFIX ps -q)"
+if ! docker-compose --project-directory ${LARADHOC_BASE_PATH} -p $CONTAINER_PREFIX ps &> /dev/null; then
     EXEC="no"
 elif [ -n "$PSRESULT" ]; then
     EXEC="yes"
@@ -53,44 +57,45 @@ function check_if_is_running {
     fi
 }
 
+SCRIPTS_DIR=${LARADHOC_BASE_PATH}/.docker/scripts/
 
 if [ "$COMMAND" == "init" ]; then
-  .docker/scripts/init
+  ${SCRIPTS_DIR}init
 elif [ "$COMMAND" == "build" ]; then
-  .docker/scripts/start --build
+  ${SCRIPTS_DIR}start --build
 elif [ "$COMMAND" == "init-laravel" ]; then
-  .docker/scripts/init-laravel
+  ${SCRIPTS_DIR}init-laravel
 elif [ "$COMMAND" == "install-laravel" ]; then
-  .docker/scripts/install-laravel
+  ${SCRIPTS_DIR}install-laravel
 elif [ "$COMMAND" == "up" ] || [ "$COMMAND" == "start" ]; then
-  .docker/scripts/start
+  ${SCRIPTS_DIR}start
 elif [ "$COMMAND" == "down" ] || [ "$COMMAND" == "stop" ]; then
   check_if_is_running
-  .docker/scripts/stop
+  ${SCRIPTS_DIR}stop
 elif [ "$COMMAND" == "artisan" ] || [ "$COMMAND" == "art" ]; then
   check_if_is_running
-  .docker/scripts/artisan $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+  ${SCRIPTS_DIR}artisan $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "tinker" ]; then
   check_if_is_running
-  .docker/scripts/artisan tinker
+  ${SCRIPTS_DIR}artisan tinker
 elif [ "$COMMAND" == "composer" ]; then
   check_if_is_running
-  .docker/scripts/composer $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+  ${SCRIPTS_DIR}composer $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "test" ]; then
   check_if_is_running
-  .docker/scripts/artisan test $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+  ${SCRIPTS_DIR}artisan test $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "ps" ]; then
   check_if_is_running
-  docker-compose -p $CONTAINER_PREFIX ps
+  docker-compose --project-directory ${LARADHOC_BASE_PATH} -p $CONTAINER_PREFIX ps
 elif [ "$COMMAND" == "nah" ]; then
   check_if_is_running
-  .docker/scripts/nah
+  ${SCRIPTS_DIR}nah
 elif [ "$COMMAND" == "node" ]; then
   check_if_is_running
-  .docker/scripts/node $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+  ${SCRIPTS_DIR}node $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 elif [ "$COMMAND" == "gulp" ]; then
   check_if_is_running
-  .docker/scripts/gulp $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
+  ${SCRIPTS_DIR}gulp $1 $2 $3 $4 $5 $6 $7 $8 $9 ${10}
 else
   echo -e "\n${ERROR}Command '$COMMAND' not defined.${NC}\n"
 fi

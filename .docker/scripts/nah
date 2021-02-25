@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source .docker/scripts/common/colors
+source ${LARADHOC_BASE_PATH}/.docker/scripts/common/colors
 
 echo -e "\n${ERROR}!!!!!!!!! WARNING !!!!!!!!!${NC}\n"
 echo "- all volumes will be REMOVED (you'll loose your MySql data)"
@@ -14,9 +14,9 @@ if [ ! "$input" == "nah" ] ; then
   exit 0
 fi
 
-source .env
+source ${LARADHOC_BASE_PATH}/.env
 echo "Stopping all containers and removing volumes..."
-docker-compose down -v
+docker-compose --project-directory ${LARADHOC_BASE_PATH} down -v
 
 echo "Deleting ${APP_SRC} folder..."
-rm -rf ${APP_SRC}
+rm -rf ${LARADHOC_BASE_PATH}/${APP_SRC}

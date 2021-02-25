@@ -1,10 +1,12 @@
 #!/bin/bash
-source .env
+source ${LARADHOC_BASE_PATH}/.env
+
+_APP_SRC=${LARADHOC_BASE_PATH}/${_APP_SRC}
 
 # Laravel .env file
-TARGET_ENV="${APP_SRC}/.env"
+TARGET_ENV="${_APP_SRC}/.env"
 # Laravel .env.example file
-TARGET_ENV_EXAMPLE="${APP_SRC}/.env.example"
+TARGET_ENV_EXAMPLE="${_APP_SRC}/.env.example"
 
 if [ "$1" != "--new" ] ; then
   # Existing project: check for .env file
@@ -46,8 +48,8 @@ echo "${ENV_FILE}" > ${TARGET_ENV}
 
 if [ "$1" != "--new" ] ; then
   # Existing project: install composer dependencies, generate a key
-  .docker/scripts/composer install --ignore-platform-reqs
-  .docker/scripts/artisan key:generate
+  ${LARADHOC_BASE_PATH}/.docker/scripts/composer install --ignore-platform-reqs
+  ${LARADHOC_BASE_PATH}/.docker/scripts/artisan key:generate
 fi
 
-.docker/scripts/artisan config:clear
+${LARADHOC_BASE_PATH}/.docker/scripts/artisan config:clear

@@ -1,4 +1,4 @@
-source .docker/scripts/common/colors
+source ${LARADHOC_BASE_PATH}/.docker/scripts/common/colors
 
 echo -e "${WARNING}Here a list of available commands:${NC}"
 echo -e "  ${INFO}init${NC}            Init the project"
