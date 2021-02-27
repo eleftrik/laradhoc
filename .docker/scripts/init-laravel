@@ -49,6 +49,7 @@ echo "${ENV_FILE}" > ${TARGET_ENV}
 if [ "$1" != "--new" ] ; then
   # Existing project: install composer dependencies, generate a key
   ${LARADHOC_BASE_PATH}/.docker/scripts/composer install --ignore-platform-reqs
+  ${LARADHOC_BASE_PATH}/.docker/scripts/composer dump-autoload
   ${LARADHOC_BASE_PATH}/.docker/scripts/artisan key:generate
 fi
 
