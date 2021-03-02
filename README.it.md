@@ -9,7 +9,7 @@ Laradhoc
 ![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
 
-🆕 ✅ *Rilasciata la versione **2.1.0** con qualche miglioramento!*
+🆕 ✅ *Rilasciata la versione **2.2.0** con qualche miglioramento!*
 
 **Laradhoc** è un semplice ambiente di sviluppo LEMP basato su Docker per applicazioni [Laravel](https://laravel.com/).
 

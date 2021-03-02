@@ -119,13 +119,6 @@ services:
       - ./.docker/images/echo-server/laravel-echo-server.json:/opt/laravellaravel-echo-server.json:ro
     depends_on:
       - redis
-  composer:
-    working_dir: /var/www/
-    container_name: ${CONTAINER_PREFIX}_composer
-    build:
-      context: ./.docker/images/composer
-    volumes:
-    - ${APP_SRC}:/var/www
   node:
     working_dir: /var/www/
     container_name: ${CONTAINER_PREFIX}_node

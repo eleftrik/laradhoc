@@ -10,6 +10,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 No unreleased versions
 
+## [2.2.0] - 2021-03-02
+
+### Changed
+- remove `composer` container and use `php-fpm` to leverage the same PHP version
+
 ## [2.1.0] - 2021-02-25
 
 ### Changed
