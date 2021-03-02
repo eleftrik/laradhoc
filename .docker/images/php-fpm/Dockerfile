@@ -92,6 +92,9 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     esac; \
 fi;
 
+# Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
 # Cron
 COPY ./cron /etc/cron.d/cron
 RUN chmod 0644 /etc/cron.d/cron
