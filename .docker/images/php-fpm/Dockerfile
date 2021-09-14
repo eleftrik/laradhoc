@@ -5,7 +5,7 @@ FROM php:${PHP_VERSION}-fpm
 WORKDIR /var/www
 
 # Required for fixing an error while installing pdftk
-RUN mkdir /usr/share/man/man1/
+RUN mkdir -p /usr/share/man/man1/
 
 # Install dependencies
 RUN apt-get update && \
