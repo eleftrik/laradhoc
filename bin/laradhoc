@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-LARADHOC_VERSION=2.2.0
+LARADHOC_VERSION=2.3.0
 
 SCRIPT=`realpath $0`
 SCRIPT_PATH=`dirname $SCRIPT`

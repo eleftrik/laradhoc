@@ -9,7 +9,7 @@ Laradhoc
 ![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
 
-🆕 ✅ *Version **2.2.0** is out with some improvement!*
+🆕 ✅ *Version **2.3.0** is out - PHP 8.1 support*
 
 **Laradhoc** is a Docker-based basic LEMP development environment designed for [Laravel](https://laravel.com/)
 applications.
@@ -22,7 +22,7 @@ Looking for a similar Docker environment for [WordPress](https://wordpress.org/)
 ## Features
 
 * Nginx
-* PHP (7.2 / 7.3 / 7.4 / 8.0) with OPCache
+* PHP (7.2 / 7.3 / 7.4 / 8.0 / 8.1) with OPCache
 * Composer 2.0
 * MySQL / MariaDB
 * MongoDB
