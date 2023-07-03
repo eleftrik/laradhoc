@@ -26,6 +26,8 @@ RUN apt-get update && \
     libzip-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
+    openjdk-17-jre-headless \
+    ca-certificates-java \
     pdftk \
     libldap2-dev
 
@@ -43,7 +45,7 @@ RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
 RUN case ${PHP_VERSION} in \
-    8.1*|8.0*|7.4*) \
+    8.2*|8.1*|8.0*|7.4*) \
         docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
         && docker-php-ext-install gd; \
         ;; \
@@ -65,7 +67,7 @@ ARG ENABLE_XDEBUG
 RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
     pecl install xdebug; \
     case ${PHP_VERSION} in \
-        8.1*|8.0*|7.4*) \
+        8.2*|8.1*|8.0*|7.4*) \
             echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.mode=profile" >> /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \
