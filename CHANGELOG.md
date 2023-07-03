@@ -14,7 +14,7 @@ No unreleased versions
 
 ### Added
 
-- support for PHP `8.1`
+- support for PHP `8.2`
 
 ## [2.3.0] - 2022-02-19
 
@@ -25,6 +25,7 @@ No unreleased versions
 ## [2.2.0] - 2021-03-02
 
 ### Changed
+
 - remove `composer` container and use `php-fpm` to leverage the same PHP version
 
 ## [2.1.0] - 2021-02-25
