@@ -45,7 +45,7 @@ RUN pecl install -o -f redis \
     && rm -rf /tmp/pear \
     && docker-php-ext-enable redis
 RUN case ${PHP_VERSION} in \
-    8.2*|8.1*|8.0*|7.4*) \
+    8.3*|8.2*|8.1*|8.0*|7.4*) \
         docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg --with-webp \
         && docker-php-ext-install gd; \
         ;; \
@@ -65,9 +65,21 @@ RUN sed -e 's/memory_limit = 128M/memory_limit = 512M/' -i "$PHP_INI_DIR/php.ini
 
 ARG ENABLE_XDEBUG
 RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
-    pecl install xdebug; \
     case ${PHP_VERSION} in \
+        8.3*) \
+            pecl install xdebug-3.3.0alpha3; \
+            echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.mode=profile" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.client_port=9003" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.discover_client_host=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.idekey='PHPSTORM'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && echo "xdebug.output_dir='/opt/profile'" >> /usr/local/etc/php/conf.d/xdebug.ini \
+            && docker-php-ext-enable xdebug ;\
+            ;; \
         8.2*|8.1*|8.0*|7.4*) \
+            pecl install xdebug; \
             echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.mode=profile" >> /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.start_with_request=trigger" >> /usr/local/etc/php/conf.d/xdebug.ini \
@@ -79,6 +91,7 @@ RUN if [ ${ENABLE_XDEBUG} = 1 ] ; then \
             && docker-php-ext-enable xdebug ;\
             ;; \
         *) \
+            pecl install xdebug; \
             echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.default_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \
             && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/xdebug.ini \

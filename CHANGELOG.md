@@ -10,6 +10,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 No unreleased versions
 
+## [2.5.0] - 2023-11-30
+
+### Added
+
+- support for PHP `8.3` (with xdebug-3.3.0alpha3)
+
 ## [2.4.0] - 2023-07-03
 
 ### Added
