@@ -58,6 +58,12 @@ RUN case ${PHP_VERSION} in \
 RUN docker-php-ext-install opcache \
     && pecl install mongodb && docker-php-ext-enable mongodb
 
+# Install the intl extension
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+    && docker-php-ext-install intl \
+    && docker-php-ext-enable intl
+
 # Configure php.ini
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 RUN sed -e 's/max_execution_time = 30/max_execution_time = 600/' -i "$PHP_INI_DIR/php.ini"
