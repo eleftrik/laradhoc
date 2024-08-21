@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Load environment variables from .env file
-export $(grep -v '^#' .env | xargs)
+export $(grep -v '^#' ./.env | xargs)
 
 
 # Remove old containers
@@ -19,4 +19,4 @@ docker exec -it ${APP_NAME}_php-fpm php artisan migrate:fresh --seed
 #Run all tests - optional
 #docker exec -it ${APP_NAME}_php-fpm php artisan test
 
-docker exec -it ${APP_NAME}_php-fpm bash
+docker exec -it ${APP_NAME,,}_php-fpm bash
