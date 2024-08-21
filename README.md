@@ -426,7 +426,7 @@ For example: [http://laradhoc.test:8081]()
 You can remove all old Docker containers and spin up your entire project from scratch. This is ideal if you're working in multiple environments.
 
 ```bash
-sh .\.docker\scripts\rundocker.sh
+sh ./.docker/scripts/rundocker.sh
 ```
 
 ## Contributing
