@@ -421,6 +421,14 @@ MailHog web interface is available at
 
 For example: [http://laradhoc.test:8081]()
 
+## Spinning up fresh Docker containers
+
+You can remove all old Docker containers and spin up your entire project from scratch. This is ideal if you're working in multiple environments.
+
+```bash
+sh ./.docker/scripts/rundocker.sh
+```
+
 ## Contributing
 
 Suggestions, reviews, bug reports are very welcome. We never stop learning :-)
