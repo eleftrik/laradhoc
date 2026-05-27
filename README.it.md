@@ -1,15 +1,10 @@
-Laradhoc
-===
+# Laradhoc
+
+> ⚠️ Questo progetto **non è più mantenuto** ed è ufficialmente deprecato.
 
 ![Laradhoc](media/images/laradhoc.png)
 
-![GitHub stars](https://img.shields.io/github/stars/eleftrik/laradhoc?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/eleftrik/laradhoc?style=social)
-![GitHub issues](https://img.shields.io/github/issues/eleftrik/laradhoc)
-![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
-
-🆕 ✅ *Rilasciata la versione **2.5.0** - supporto per PHP 8.3*
+---
 
 **Laradhoc** è un semplice ambiente di sviluppo LEMP basato su Docker per applicazioni [Laravel](https://laravel.com/).
 

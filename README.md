@@ -1,21 +1,54 @@
-Laradhoc
-===
+# Laradhoc
 
 ![Laradhoc](media/images/laradhoc.png)
 
-![GitHub stars](https://img.shields.io/github/stars/eleftrik/laradhoc?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/eleftrik/laradhoc?style=social)
-![GitHub issues](https://img.shields.io/github/issues/eleftrik/laradhoc)
-![GitHub](https://img.shields.io/github/license/eleftrik/laradhoc)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/eleftrik/laradhoc?label=version)
 
-🆕 ✅ *Version **2.5.0** is out - PHP 8.3 support*
+> ⚠️ This project is **no longer maintained** and has been officially deprecated.
+
+---
+
+## 📌 Status
+
+As of **May 2026**, this repository is no longer actively maintained.
+
+No further updates, bug fixes, or security patches will be provided.
+
+This repository has been archived and is kept here for historical/reference purposes only.
+
+---
+
+## 🚨 Important notice
+
+- This project is **not safe to use in production** without independent review and maintenance.
+- Known and future security issues will **not be addressed**.
+- Issues and pull requests are no longer monitored.
+
+---
+
+## 🤝 Forks and continuation
+
+You are free to fork this repository and continue development under your own maintenance.
+
+If you create a maintained fork, feel free to link it in issues or documentation for others.
+
+---
+
+## 📜 License
+
+This project retains its original license.
+
+However, please note that the license does not imply active maintenance or support.
+
+---
+
+## 🙏 Thanks
+
+Thanks to everyone who used, contributed to, or supported this project over the years.
+
+---
 
 **Laradhoc** is a Docker-based basic LEMP development environment designed for [Laravel](https://laravel.com/)
 applications.
-
-Looking for a similar Docker environment for [WordPress](https://wordpress.org/)? Then give a try to
-[Dockpress](https://github.com/eleftrik/dockpress)!
 
 [Preferisci leggere in italiano? 🇮🇹](README.it.md)
 
